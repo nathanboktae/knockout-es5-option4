@@ -1,0 +1,31 @@
+{
+  "name": "knockout-es5-option4",
+  "main": "knockout-es5-option4.js",
+  "version": "0.5.0",
+  "homepage": "https://github.com/nathanboktae/knockout-es5-option4",
+  "authors": [
+    "Nathan Black <nathan@nathanblack.org>"
+  ],
+  "description": "Hide knockout observables behind ES5 properties - no WeakMap needed",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "knockout",
+    "ko",
+    "es5",
+    "ecmascript5"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "knockout": ">= 2.3.0 < 4.0.0"
+  }
+}
