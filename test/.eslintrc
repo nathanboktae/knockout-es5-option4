@@ -1,0 +1,24 @@
+{
+    "env": {
+      "browser": true,
+      "amd": true,
+      "mocha": true
+    },
+    "rules": {
+      "semi": 0,
+      "strict": 0,
+      "no-multi-str": 0,
+      "no-unused-expressions": 0,
+      "no-underscore-dangle": 0,
+      "no-shadow": 1,
+      "curly": 1,
+      "quotes": [2, "single"],
+      "brace-style": [2, { "allowSingleLine": true }]
+    },
+    "globals": {
+      "chai": true,
+      "should": true,
+      "sinon": true,
+      "ko": true
+    }
+}

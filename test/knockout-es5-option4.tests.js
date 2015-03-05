@@ -1,5 +1,3 @@
-/*jshint expr:true, es5:true, asi:true*/
-/*globals describe,it,ko,should,chai,sinon*/
 chai.Assertion.addProperty('observable', function() {
   this.assert(
     ko.isObservable(this._obj),
@@ -8,7 +6,7 @@ chai.Assertion.addProperty('observable', function() {
   )
 })
 
-describe('ko.es5', function() {
+describe('knockout-es5-option4', function() {
   describe('defineObservableProperty', function() {
     it('should define an enumerable property', function() {
       var foo = {}
@@ -348,8 +346,8 @@ describe('ko.es5', function() {
       }]
 
       ko.observifyModel(model)
-      should.not.exist(model['_0'])
-      should.not.exist(model['_1'])
+      should.not.exist(model._0)
+      should.not.exist(model._1)
 
       model[0]._name.should.be.an.observable
       model[1]._name.should.be.an.observable
@@ -586,20 +584,20 @@ describe('ko.es5', function() {
         var model = ko.observableModel({
           friends: [{
             name: 'Jane',
-            favoriteColors: [{ color: 'white', hex: '0xFFF'}],
+            favoriteColors: [{ color: 'white', hex: '0xFFF'}]
           }, {
             name: 'John',
-            favoriteColors: 'red and blue',
+            favoriteColors: 'red and blue'
           }]
         })
 
         ko.observifyModel(model, {
           friends: [{
             name: 'John',
-            favoriteColors: [{ color: 'blue', hex: '0x00F'}],
+            favoriteColors: [{ color: 'blue', hex: '0x00F'}]
           }, {
             name: 'Jane',
-            favoriteColors: NaN,
+            favoriteColors: NaN
           }]
         }, true, {
           friends: 'name',
@@ -609,10 +607,10 @@ describe('ko.es5', function() {
         model.should.deep.equal({
           friends: [{
             name: 'Jane',
-            favoriteColors: [{ color: 'white', hex: '0xFFF'}],
+            favoriteColors: [{ color: 'white', hex: '0xFFF'}]
           }, {
             name: 'John',
-            favoriteColors: [{ color: 'blue', hex: '0x00F'}],
+            favoriteColors: [{ color: 'blue', hex: '0x00F'}]
           }]
         })
       })

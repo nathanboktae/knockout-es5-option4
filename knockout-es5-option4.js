@@ -56,7 +56,7 @@ if (typeof define === 'function' && define.amd) {
               Object.defineProperty(arr, f, {
                 value: function() {
                   obv.valueWillMutate();
-                  var result = Array.prototype[f].apply(obv._latestValue, arguments);
+                  var result = Array.prototype[f].apply(obv.peek(), arguments);
                   obv.valueHasMutated();
                   return result;
                 }

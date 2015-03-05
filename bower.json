@@ -22,8 +22,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    "test"
   ],
   "dependencies": {
     "knockout": ">= 2.3.0 < 4.0.0"
