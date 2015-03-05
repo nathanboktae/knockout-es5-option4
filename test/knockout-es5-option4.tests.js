@@ -96,7 +96,7 @@ describe('knockout-es5-option4', function() {
           sally: 10,
           sue: 5
         }
-      }], false)
+      }], { deep: false })
 
       ko.isObservable(foo.friends[0]._kids).should.be.false
       foo.friends[0].kids.should.not.haveOwnProperty('_sally')
@@ -154,7 +154,7 @@ describe('knockout-es5-option4', function() {
           title: undefined,
           company: 'acme'
         }
-      }, false)
+      }, { deep: false })
 
       var jobTitleDescriptor = Object.getOwnPropertyDescriptor(obj.job, 'title')
       should.not.exist(jobTitleDescriptor.set)
@@ -327,7 +327,7 @@ describe('knockout-es5-option4', function() {
         }]
       }
 
-      ko.observe(model, false)
+      ko.observe(model, model, { deep: false })
       model._name.should.be.an.observable
       model._friends.should.be.an.observable
       model.friends[0].name.should.equal('Jane')
@@ -385,8 +385,10 @@ describe('knockout-es5-option4', function() {
             name: 'Jill',
             age: 25
           }]
-        }, true, {
-          friends: 'name'
+        }, {
+          arrayMapping: {
+            friends: 'name'
+          }
         })
 
         model.friends.length.should.equal(3)
@@ -456,9 +458,11 @@ describe('knockout-es5-option4', function() {
               color: 'black'
             }]
           }]
-        }, true, {
-          friends: 'name',
-          cars: 'makeAndModel'
+        }, {
+          arrayMapping: {
+            friends: 'name',
+            cars: 'makeAndModel'
+          }
         })
 
         model.friends.length.should.equal(3)
@@ -521,8 +525,10 @@ describe('knockout-es5-option4', function() {
             name: 'Jane',
             favoriteColors: ['pink', 'silver']
           }]
-        }, true, {
-          friends: 'name'
+        }, {
+          arrayMapping: {
+            friends: 'name'
+          }
         })
 
         model.should.deep.equal({
@@ -561,8 +567,10 @@ describe('knockout-es5-option4', function() {
             id: 2,
             name: 'Jill'
           }]
-        }, true, {
-          '0': 'id'
+        }, {
+          arrayMapping: {
+            '0': 'id'
+          }
         })
 
         model.should.deep.equal({
@@ -599,9 +607,11 @@ describe('knockout-es5-option4', function() {
             name: 'Jane',
             favoriteColors: NaN
           }]
-        }, true, {
-          friends: 'name',
-          favoriteColors: 'color'
+        }, {
+          arrayMapping: {
+            friends: 'name',
+            favoriteColors: 'color'
+          }
         })
 
         model.should.deep.equal({
@@ -656,9 +666,11 @@ describe('knockout-es5-option4', function() {
               color: 'black'
             }, undefined, NaN]
           }]
-        }, true, {
-          friends: 'name',
-          cars: 'makeAndModel'
+        }, {
+          arrayMapping: {
+            friends: 'name',
+            cars: 'makeAndModel'
+          }
         })
 
         // a simple deep equal fails due to NaN !== NaN. same with undefined.
