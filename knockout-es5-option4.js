@@ -18,10 +18,10 @@
         if (deep && Array.isArray(arr[i])) {
           deepObservifyArray(arr[i], merge[i], deep, arrayMapping)
         } else {
-          ko.observifyModel(arr[i], merge[i], deep, arrayMapping)
+          ko.observe(arr[i], merge[i], deep, arrayMapping)
         }
       } else if (arr[i] !== merge[i]) {
-        arr[i] = ko.observableModel(merge[i])
+        arr[i] = ko.observableObject(merge[i])
       }
     }
   },
@@ -75,7 +75,7 @@
 
     var current = obj[prop]
     if (deep !== false && (current != null && typeof current === 'object')) {
-      ko.observifyModel(current, def, deep, arrayMapping, prop)
+      ko.observe(current, def, deep, arrayMapping, prop)
       // if the current propery is an observable array property, notify it's subscribers that it changed
       if (Array.isArray(current) && current !== def && obj['_' + prop]) {
         obj['_' + prop].notifySubscribers()
@@ -88,7 +88,7 @@
   ko.utils.defineObservableProperty = defineProperty.bind(null, 'observable')
   ko.utils.defineComputedProperty = defineProperty.bind(null, 'computed')
 
-  ko.observifyModel = function(model, defaults, deep, arrayMapping, parentProp) {
+  ko.observe = function(model, defaults, deep, arrayMapping, parentProp) {
     var def, prop
     if (arguments.length === 1 || typeof defaults === 'boolean') {
       arrayMapping = deep
@@ -150,8 +150,8 @@
     return model
   }
 
-  ko.observableModel = function(defaults, deep, arrayMapping) {
-    return ko.observifyModel({}, defaults, deep, arrayMapping)
+  ko.observableObject = function(defaults, deep, arrayMapping) {
+    return ko.observe({}, defaults, deep, arrayMapping)
   }
 
   return ko

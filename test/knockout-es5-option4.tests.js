@@ -104,9 +104,9 @@ describe('knockout-es5-option4', function() {
     })
   })
 
-  describe('observableModel', function() {
+  describe('observableObject', function() {
     it('should create an object with observable properties', function() {
-      var obj = ko.observableModel({
+      var obj = ko.observableObject({
         name: 'Bob',
         age: undefined
       })
@@ -126,7 +126,7 @@ describe('knockout-es5-option4', function() {
     })
 
     it('should create observable properties deeply', function() {
-      var obj = ko.observableModel({
+      var obj = ko.observableObject({
         name: 'Bob',
         job: {
           title: undefined,
@@ -148,7 +148,7 @@ describe('knockout-es5-option4', function() {
     })
 
     it('should not create observable properties deeply if requested', function() {
-      var obj = ko.observableModel({
+      var obj = ko.observableObject({
         name: 'Bob',
         job: {
           title: undefined,
@@ -169,7 +169,7 @@ describe('knockout-es5-option4', function() {
     })
 
     it('should special case arrays and create an observableArray', function() {
-      var obj = ko.observableModel({
+      var obj = ko.observableObject({
         name: 'Bob',
         friends: ['Jane', 'Jill']
       })
@@ -180,7 +180,7 @@ describe('knockout-es5-option4', function() {
     })
 
     it('should not define properties for subscribables', function() {
-      var obj = ko.observableModel({
+      var obj = ko.observableObject({
         name: 'Bob',
         friends: ko.observableArray()
       })
@@ -193,7 +193,7 @@ describe('knockout-es5-option4', function() {
     })
 
     it('should deeply create observableModels from arrays of objects', function() {
-      var obj = ko.observableModel({
+      var obj = ko.observableObject({
         name: 'Bob',
         friends: [{
           name: 'Jill'
@@ -213,19 +213,19 @@ describe('knockout-es5-option4', function() {
     })
   })
 
-  describe('observifyModel', function() {
+  describe('observe', function() {
     it('should return the same object', function() {
       var orig = {
         name: 'Bob',
         age: 30
       }
-      var model = ko.observifyModel(orig)
+      var model = ko.observe(orig)
 
       model.should.equal(orig)
     })
 
     it('should be idempotent and not overwrite previous observable properties', function() {
-      var model = ko.observableModel({
+      var model = ko.observableObject({
         name: 'Bob',
         friends: [{
           name: 'Jane'
@@ -243,7 +243,7 @@ describe('knockout-es5-option4', function() {
       should.not.exist(model.friends[2]._name)
       sub.should.have.been.calledOnce
 
-      ko.observifyModel(model)
+      ko.observe(model)
       model.friends[2]._name.should.be.an.observable
 
       model.friends.push({ name: 'Thomas' })
@@ -252,7 +252,7 @@ describe('knockout-es5-option4', function() {
     })
 
     it('should be idempotent to existing observables while merging new values and observifying', function() {
-      var model = ko.observableModel({
+      var model = ko.observableObject({
         name: 'Bob',
         friends: [{
           name: 'Jane'
@@ -268,7 +268,7 @@ describe('knockout-es5-option4', function() {
       model.friends[0]._name.subscribe(firstFriendSub)
       model.friends[1]._name.subscribe(secondFriendSub)
 
-      ko.observifyModel(model, {
+      ko.observe(model, {
         friends: [{
           name: 'Jill'
         }, {
@@ -291,7 +291,7 @@ describe('knockout-es5-option4', function() {
     })
 
     it('should not observify arrays of non-objects', function() {
-      var model = ko.observableModel({
+      var model = ko.observableObject({
         name: 'Bob',
         friends: []
       })
@@ -302,7 +302,7 @@ describe('knockout-es5-option4', function() {
       var origFriendsObservable = model._friends
       var origNameObservable = model._name
 
-      ko.observifyModel(model, {
+      ko.observe(model, {
         name: 'Brian',
         friends: ['Jill', 'Jane']
       })
@@ -327,7 +327,7 @@ describe('knockout-es5-option4', function() {
         }]
       }
 
-      ko.observifyModel(model, false)
+      ko.observe(model, false)
       model._name.should.be.an.observable
       model._friends.should.be.an.observable
       model.friends[0].name.should.equal('Jane')
@@ -345,7 +345,7 @@ describe('knockout-es5-option4', function() {
         age: 25
       }]
 
-      ko.observifyModel(model)
+      ko.observe(model)
       should.not.exist(model._0)
       should.not.exist(model._1)
 
@@ -365,7 +365,7 @@ describe('knockout-es5-option4', function() {
 
     describe('arrayMapping', function() {
       it('for properties that are arrays, it should match items in the array by the property that is the value of the arrayMapping property', function() {
-        var model = ko.observableModel({
+        var model = ko.observableObject({
           name: 'Bob',
           friends: [{
             name: 'Jane',
@@ -377,7 +377,7 @@ describe('knockout-es5-option4', function() {
           }]
         })
 
-        ko.observifyModel(model, {
+        ko.observe(model, {
           friends: [{
             name: 'John',
             age: 31
@@ -402,7 +402,7 @@ describe('knockout-es5-option4', function() {
       })
 
       it('should not map arrays not specified', function() {
-        var model = ko.observableModel({
+        var model = ko.observableObject({
           name: 'Bob',
           friends: [{
             name: 'Jane',
@@ -428,7 +428,7 @@ describe('knockout-es5-option4', function() {
           }]
         })
 
-        ko.observifyModel(model, {
+        ko.observe(model, {
           friends: [{
             name: 'Jill',
             age: 25,
@@ -501,7 +501,7 @@ describe('knockout-es5-option4', function() {
       })
 
       it('should not loose any properties when mapping', function() {
-        var model = ko.observableModel({
+        var model = ko.observableObject({
           name: 'Bob',
           friends: [{
             name: 'Jane',
@@ -513,7 +513,7 @@ describe('knockout-es5-option4', function() {
           }]
         })
 
-        ko.observifyModel(model, {
+        ko.observe(model, {
           friends: [{
             name: 'John',
             favoriteColors: ['blue', 'green']
@@ -541,7 +541,7 @@ describe('knockout-es5-option4', function() {
       })
 
       it('should not map arrays of arrays', function() {
-        var model = ko.observableModel({
+        var model = ko.observableObject({
           matrix: [[{ id: 2 }], [{ id: 8 }], [{ id: 10 }]],
           '0': [{
             id: 1,
@@ -552,7 +552,7 @@ describe('knockout-es5-option4', function() {
           }]
         })
 
-        ko.observifyModel(model, {
+        ko.observe(model, {
           matrix: [[{ id: 0 }], [{ id: 5 }]],
           '0': [{
             id: 4,
@@ -581,7 +581,7 @@ describe('knockout-es5-option4', function() {
       })
 
       it('should not try to map if the defaults for a prop is not an array', function() {
-        var model = ko.observableModel({
+        var model = ko.observableObject({
           friends: [{
             name: 'Jane',
             favoriteColors: [{ color: 'white', hex: '0xFFF'}]
@@ -591,7 +591,7 @@ describe('knockout-es5-option4', function() {
           }]
         })
 
-        ko.observifyModel(model, {
+        ko.observe(model, {
           friends: [{
             name: 'John',
             favoriteColors: [{ color: 'blue', hex: '0x00F'}]
@@ -616,7 +616,7 @@ describe('knockout-es5-option4', function() {
       })
 
       it('should handle sparse or inconsistent source and destination arrays', function() {
-        var model = ko.observableModel({
+        var model = ko.observableObject({
           friends: [{
             name: 'Jane',
             cars: [null, 'hi', {
@@ -642,7 +642,7 @@ describe('knockout-es5-option4', function() {
           condition: 'poor'
         }
 
-        ko.observifyModel(model, {
+        ko.observe(model, {
           friends: [{
             name: 'John',
             cars: johnsCars
