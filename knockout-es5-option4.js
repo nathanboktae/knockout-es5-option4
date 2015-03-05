@@ -13,8 +13,8 @@
   var deepObservifyArray = function(arr, merge, deep, arrayMapping) {
     for (var i = 0, len = merge.length; i < len; i++) {
       // TODO circular reference protection
-      if (merge[i] != null && typeof merge[i] == 'object' &&
-          arr[i] != null && typeof arr[i] == 'object') {
+      if (merge[i] != null && typeof merge[i] === 'object' &&
+          arr[i] != null && typeof arr[i] === 'object') {
         if (deep && Array.isArray(arr[i])) {
           deepObservifyArray(arr[i], merge[i], deep, arrayMapping)
         } else {
@@ -26,7 +26,7 @@
     }
   },
   defineProperty = function(type, obj, prop, def, deep, arrayMapping) {
-    if (obj == null || typeof obj != 'object' || typeof prop != 'string') {
+    if (obj == null || typeof obj !== 'object' || typeof prop !== 'string') {
       throw new Error('invalid arguments passed')
     }
 
@@ -38,16 +38,16 @@
     if (!descriptor || (!descriptor.get && !descriptor.set)) {
       if (descriptor) delete obj[prop]
 
-      var obv = ko[type](def)
+      var observable = ko[type](def)
       Object.defineProperty(obj, prop, {
-        set: function(value) { obv(value) },
-        get: function() { return obv() },
+        set: observable,
+        get: observable,
         enumerable: true,
         configurable: true
       })
 
       Object.defineProperty(obj, '_' + prop, {
-        get: function() { return obv },
+        get: function() { return observable },
         enumerable: false
       })
 
@@ -59,22 +59,22 @@
               // Array.prototype[f].apply but on the object, resulting in infinite recursion.
               Object.defineProperty(arr, f, {
                 value: function() {
-                  obv.valueWillMutate()
-                  var result = Array.prototype[f].apply(obv.peek(), arguments)
-                  obv.valueHasMutated()
+                  observable.valueWillMutate()
+                  var result = Array.prototype[f].apply(observable.peek(), arguments)
+                  observable.valueHasMutated()
                   return result
                 }
               })
             })
           }
         }
-        obv.subscribe(update)
+        observable.subscribe(update)
         update(def)
       }
     }
 
     var current = obj[prop]
-    if (deep !== false && (current != null && typeof current == 'object')) {
+    if (deep !== false && (current != null && typeof current === 'object')) {
       ko.observifyModel(current, def, deep, arrayMapping, prop)
       // if the current propery is an observable array property, notify it's subscribers that it changed
       if (Array.isArray(current) && current !== def && obj['_' + prop]) {
@@ -96,7 +96,7 @@
       defaults = model
     }
 
-    if (defaults == null || typeof defaults != 'object') {
+    if (defaults == null || typeof defaults !== 'object') {
       return defaults
     }
 
