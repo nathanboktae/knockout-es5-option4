@@ -150,17 +150,5 @@ if (typeof define === 'function' && define.amd) {
     return ko.observifyModel({}, defaults, deep, arrayMapping);
   };
 
-  ko.observableArrayModel = function(arr, deep) {
-    if (ko.isObservable(arr)) {
-      deepObservifyArray(arr(), arr(), deep);
-      arr.notifySubscribers();
-      return arr;
-    }
-
-    var copy = (arr || []).slice(0);
-    deepObservifyArray(copy, copy, deep);
-    return ko.observableArray(copy);
-  };
-
   return ko;
 });

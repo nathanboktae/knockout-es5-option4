@@ -694,29 +694,4 @@ describe('knockout-es5-option4', function() {
       })
     })
   })
-
-  describe('observableArrayModel', function() {
-    it('should return a ko.observableArray', function() {
-      var stuff = ko.observableArrayModel(['hi', 'there'])
-      ko.isObservable(stuff).should.be.true
-      stuff().should.be.an('array')
-    })
-
-    it('should return the same ko.observableArray if passed one', function() {
-      var stuff = ko.observableArray(['hi', { world: 'there' }])
-
-      ko.observableArrayModel(stuff).should.equal(stuff)
-      stuff()[1]._world.should.be.an.observable
-    })
-
-    it('should turn object members into observableModels, deeply by default', function() {
-      var stuff = ko.observableArrayModel(['hi', { world: 'there' }])
-
-      stuff()[0].should.not.be.an.observable
-      stuff()[0].should.equal('hi')
-
-      stuff()[1]._world.should.be.an.observable
-      stuff()[1].world.should.equal('there')
-    })
-  })
 })
