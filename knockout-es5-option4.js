@@ -153,5 +153,12 @@
     return ko.observe({}, defaults, options)
   }
 
+  ko.track = function(obj, props) {
+    (props || Object.getOwnPropertyNames(obj)).forEach(function(prop) {
+      ko.utils.defineObservableProperty(obj, prop, obj[prop], { deep: false })
+    })
+    return obj
+  }
+
   return ko
 })

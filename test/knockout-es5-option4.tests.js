@@ -706,4 +706,52 @@ describe('knockout-es5-option4', function() {
       })
     })
   })
+
+  describe('knockout-es5 compatibility', function() {
+    describe('ko.track', function() {
+      it('should not deeply observe by default', function() {
+        var model = {
+          name: 'Bob',
+          friends: [{
+            name: 'Jane'
+          }, {
+            name: ko.observable('John')
+          }]
+        }
+
+        ko.track(model).should.equal(model)
+
+        model._name.should.be.an.observable
+        model._friends.should.be.an.observable
+        model.friends[0].name.should.equal('Jane')
+        should.not.exist(model.friends[0]._name)
+        model.friends[1].name.should.be.an.observable
+        model.friends[1].name().should.equal('John')
+      })
+
+      it('should support only tracking specific properties', function() {
+        var model = {
+          name: 'Bob',
+          friends: [{
+            name: 'Jane'
+          }, {
+            name: ko.observable('John')
+          }],
+          age: 30,
+          car: 'BMW-M3'
+        }
+
+        ko.track(model, ['name', 'age']).should.equal(model)
+
+        model._name.should.be.an.observable
+        model.name.should.equal('Bob')
+        model._age.should.be.an.observable
+        model.age.should.equal(30)
+        should.not.exist(model._friends)
+        should.not.exist(model._car)
+        model.friends.should.be.an('array')
+        model.car.should.equal('BMW-M3')
+      })
+    })
+  })
 })
