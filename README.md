@@ -163,4 +163,4 @@ person.should.deep.equal({
 
 ### Why "Option 4"?
 
-In 2012, trying to find a solution to wrap knockout observables in ES5 properties, I found [this gist by Domenic Denicola](https://gist.github.com/domenic/1793211) of his brainstormings about potential options, before Steve Sanderson created [knockout-es5](). So I decided to go with his Solution #4, to expose the observables on the object with a proceeding underscore in front of them. However I did this while working at Microsoft, and it did not get released as open source until Janurary 2015.
+In 2012, trying to find a solution to wrap knockout observables in ES5 properties, I found [this gist by Domenic Denicola](https://gist.github.com/domenic/1793211) of his brainstormings about potential options, before Steve Sanderson created [knockout-es5](). So I decided to go with his [Solution #4](https://gist.github.com/domenic/1793211#file-knockout-es5-js-L58-L60), to expose the observables on the object with a proceeding underscore in front of them. However I did this while working at Microsoft, and it did not get released as open source until Janurary 2015.
