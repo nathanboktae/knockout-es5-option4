@@ -85,8 +85,8 @@
     }
   }
 
-  ko.utils.defineObservableProperty = defineProperty.bind(null, 'observable')
-  ko.utils.defineComputedProperty = defineProperty.bind(null, 'computed')
+  ko.defineObservableProperty = defineProperty.bind(null, 'observable')
+  ko.defineComputedProperty = defineProperty.bind(null, 'computed')
 
   ko.observe = function(model, defaults, options, /* private */ parentProp) {
     var def, prop
@@ -138,7 +138,7 @@
         if (defaults.hasOwnProperty(prop)) {
           def = defaults[prop]
           if (!def || !ko.isSubscribable(def)) {
-            ko.utils.defineObservableProperty(model, prop, def, options)
+            ko.defineObservableProperty(model, prop, def, options)
           } else {
             model[prop] = def
           }
@@ -155,7 +155,7 @@
 
   ko.track = function(obj, props) {
     (props || Object.getOwnPropertyNames(obj)).forEach(function(prop) {
-      ko.utils.defineObservableProperty(obj, prop, obj[prop], { deep: false })
+      ko.defineObservableProperty(obj, prop, obj[prop], { deep: false })
     })
     return obj
   }

@@ -11,7 +11,7 @@ describe('knockout-es5-option4', function() {
     it('should define an enumerable property', function() {
       var foo = {}
 
-      ko.utils.defineObservableProperty(foo, 'name')
+      ko.defineObservableProperty(foo, 'name')
 
       var descriptor = Object.getOwnPropertyDescriptor(foo, 'name')
       descriptor.enumerable.should.be.true
@@ -23,7 +23,7 @@ describe('knockout-es5-option4', function() {
     it('should set a default if provided', function() {
       var foo = {}
 
-      ko.utils.defineObservableProperty(foo, 'name', 'Bob')
+      ko.defineObservableProperty(foo, 'name', 'Bob')
 
       foo.name.should.equal('Bob')
     })
@@ -31,7 +31,7 @@ describe('knockout-es5-option4', function() {
     it('should define an non-enumerable property to access the observable', function() {
       var foo = {}
 
-      ko.utils.defineObservableProperty(foo, 'name')
+      ko.defineObservableProperty(foo, 'name')
 
       var descriptor = Object.getOwnPropertyDescriptor(foo, '_name')
       descriptor.enumerable.should.be.false
@@ -45,7 +45,7 @@ describe('knockout-es5-option4', function() {
     it('should special case arrays and create an observableArray', function() {
       var foo = {}
 
-      ko.utils.defineObservableProperty(foo, 'friends', [])
+      ko.defineObservableProperty(foo, 'friends', [])
 
       ko.isObservable(foo._friends).should.be.true
       foo._friends.push.should.be.a('function')
@@ -59,7 +59,7 @@ describe('knockout-es5-option4', function() {
             })
           }
 
-      ko.utils.defineObservableProperty(foo, 'friends', [{ name: 'Bob'}, { name: 'Jill' }])
+      ko.defineObservableProperty(foo, 'friends', [{ name: 'Bob'}, { name: 'Jill' }])
       checkMixinKeys()
       foo.friends.should.deep.equal([{ name: 'Bob'}, { name: 'Jill' }])
 
@@ -75,7 +75,7 @@ describe('knockout-es5-option4', function() {
     it('should deeply observify objects by default', function() {
       var foo = {}
 
-      ko.utils.defineObservableProperty(foo, 'friends', [{
+      ko.defineObservableProperty(foo, 'friends', [{
         name: 'Bob',
         titles: ['mr', 'sir']
       }])
@@ -90,7 +90,7 @@ describe('knockout-es5-option4', function() {
     it('should not deeply observify objects if requested', function() {
       var foo = {}
 
-      ko.utils.defineObservableProperty(foo, 'friends', [{
+      ko.defineObservableProperty(foo, 'friends', [{
         name: 'Bob',
         kids: {
           sally: 10,
