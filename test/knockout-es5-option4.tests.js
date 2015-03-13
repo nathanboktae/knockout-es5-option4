@@ -104,6 +104,58 @@ describe('knockout-es5-option4', function() {
     })
   })
 
+  describe('defineComputedProperty', function() {
+    var obj
+    beforeEach(function() {
+      obj = ko.observableObject({
+        firstName: 'Bob',
+        lastName: 'Doe',
+        job: {
+          title: undefined,
+          company: 'acme'
+        }
+      })
+    })
+
+    describe('given a function', function() {
+      it('should define a property with only a getter as the computed', function() {
+        ko.defineComputedProperty(obj, 'fullName', function() {
+          return this.firstName + ' ' + this.lastName
+        })
+
+        var propDescriptor = Object.getOwnPropertyDescriptor(obj, 'fullName')
+        propDescriptor.get.should.be.an.observable
+        should.not.exist(propDescriptor.set)
+      })
+
+      it('should bind to the object', function() {
+        ko.defineComputedProperty(obj, 'fullName', function() {
+          return this.firstName + ' ' + this.lastName
+        })
+
+        obj.fullName.should.equal('Bob Doe')
+      })
+    })
+
+    describe('given read and write options', function() {
+      it('should define a property with both a get and set', function() {
+        var val = ko.observable('value')
+        ko.defineComputedProperty(obj, 'writable', {
+          write: function(x) { val(x) },
+          read: function() { return JSON.stringify(val()) }
+        })
+
+        var propDescriptor = Object.getOwnPropertyDescriptor(obj, 'writable')
+        propDescriptor.get.should.be.an.observable
+        propDescriptor.set.should.be.an.observable
+        obj.writable.should.equal('"value"')
+
+        obj.writable = 'newvalue'
+        obj.writable.should.equal('"newvalue"')
+      })
+    })
+  })
+
   describe('observableObject', function() {
     it('should create an object with observable properties', function() {
       var obj = ko.observableObject({

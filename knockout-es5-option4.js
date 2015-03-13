@@ -34,13 +34,13 @@
       type = 'observableArray'
     }
 
-    var descriptor = Object.getOwnPropertyDescriptor(obj, prop)
+    var descriptor = Object.getOwnPropertyDescriptor(obj, prop), observable
     if (!descriptor || (!descriptor.get && !descriptor.set)) {
       if (descriptor) delete obj[prop]
 
-      var observable = ko[type](def)
+      observable = ko[type](def)
       Object.defineProperty(obj, prop, {
-        set: observable,
+        set: ko.isWritableObservable(observable) ? observable : undefined,
         get: observable,
         enumerable: true,
         configurable: true
@@ -80,13 +80,18 @@
       if (Array.isArray(current) && current !== def && obj['_' + prop]) {
         obj['_' + prop].notifySubscribers()
       }
-    } else if (current !== def) {
+    } else if (current !== def && !observable) {
       obj[prop] = def
     }
   }
 
   ko.defineObservableProperty = defineProperty.bind(null, 'observable')
-  ko.defineComputedProperty = defineProperty.bind(null, 'computed')
+  ko.defineComputedProperty = function(obj, prop, definition) {
+    if (typeof definition === 'function') {
+      definition = definition.bind(obj)
+    }
+    return defineProperty('computed', obj, prop, definition)
+  }
 
   ko.observe = function(model, defaults, options, /* private */ parentProp) {
     var def, prop
