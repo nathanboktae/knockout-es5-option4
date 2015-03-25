@@ -80,11 +80,11 @@ describe('knockout-es5-option4', function() {
         titles: ['mr', 'sir']
       }])
 
-      ko.isObservable(foo._friends).should.be.true
+      foo._friends.should.be.an.observable
       foo._friends.push.should.be.a('function')
 
-      ko.isObservable(foo.friends[0]._name).should.be.true
-      ko.isObservable(foo.friends[0]._titles).should.be.true
+      foo.friends[0]._name.should.be.an.observable
+      foo.friends[0]._titles.should.be.an.observable
     })
 
     it('should not deeply observify objects if requested', function() {
