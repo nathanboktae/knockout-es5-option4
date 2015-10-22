@@ -1,3 +1,12 @@
+const
+  chai = require('chai'),
+  ko = require('knockout'),
+  sinon = require('sinon')
+
+require('.')
+
+var should = chai.should()
+chai.use(require('sinon-chai'))
 chai.Assertion.addProperty('observable', function() {
   this.assert(
     ko.isObservable(this._obj),
@@ -5,6 +14,7 @@ chai.Assertion.addProperty('observable', function() {
     'expected #{this} to not be an observable'
   )
 })
+
 
 describe('knockout-es5-option4', function() {
   describe('defineObservableProperty', function() {
@@ -141,8 +151,8 @@ describe('knockout-es5-option4', function() {
       it('should define a property with both a get and set', function() {
         var val = ko.observable('value')
         ko.defineComputedProperty(obj, 'writable', {
-          write: function(x) { val(x) },
-          read: function() { return JSON.stringify(val()) }
+          write: x => val(x),
+          read: () => JSON.stringify(val())
         })
 
         var propDescriptor = Object.getOwnPropertyDescriptor(obj, 'writable')
@@ -250,9 +260,7 @@ describe('knockout-es5-option4', function() {
         friends: [{
           name: 'Jill'
         }, {
-          name: ko.computed(function() {
-            return 'Jane'
-          })
+          name: ko.computed(() => 'Jane')
         }]
       })
 

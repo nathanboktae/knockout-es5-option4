@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha-phantomjs test/runner.html"
+    "test": "mocha knockout-es5-option4.tests.js"
   },
   "repository": {
     "type": "git",
@@ -32,8 +32,6 @@
     "chai": "^2.1.0",
     "knockout": ">= 2.3.0 < 4.0.0",
     "mocha": "^2.1.0",
-    "mocha-phantomjs": "^3.5.3",
-    "phantomjs": "^1.9.16",
     "sinon": "1.12.2",
     "sinon-chai": "^2.7.0"
   }
