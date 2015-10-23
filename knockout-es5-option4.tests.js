@@ -93,6 +93,17 @@ describe('knockout-es5-option4', function() {
       friends().should.equal('Jill,Anne')
     })
 
+    it('should be able to toggle an item in and out of an array, updating subscribers', function() {
+      var foo = ko.observe({ friends: ['Bob', 'Jill', 'Jane'] })
+      var friends = ko.computed(() => foo.friends.join())
+
+      friends().should.equal('Bob,Jill,Jane')
+      foo.friends.toggle('Jill').should.be.false
+      friends().should.equal('Bob,Jane')
+      foo.friends.toggle('Jill').should.be.true
+      friends().should.equal('Bob,Jane,Jill')
+    })
+
     it('should deeply observify objects by default', function() {
       var foo = {}
 

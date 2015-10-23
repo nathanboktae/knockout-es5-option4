@@ -155,6 +155,13 @@ person.should.deep.equal({
 })
 ```
 
+#### Additional array methods
+
+- `remove`: remove an item from the array
+- `removeAll` remove all items from the array. Equivalent to assigning a new array.
+- `replace`: replace an item in the array with another one.
+- `toggle`: Add an item to the array if it is not there, otherwise remove it.
+
 ### Compared to knockout-es5
 
 - **Does not depend on [WeakMap](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) for easier compatibility**. However, simply deleting an property does not release it from memory. You must also delete the underscore prefixed property too. I found in my usage I never ended up deleting indivdual properties, but just whole objects, so this has not been an issue.

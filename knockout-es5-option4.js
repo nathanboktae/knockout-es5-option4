@@ -69,6 +69,13 @@
             ['remove', 'replace', 'removeAll'].forEach(function(f) {
               Object.defineProperty(arr, f, { value: ko.observableArray.fn[f].bind(observable) })
             })
+            Object.defineProperty(arr, 'toggle', {
+              value: function(item) {
+                var idx = observable().indexOf(item), contained = idx !== -1
+                contained ? observable.splice(idx, 1) : observable.push(item)
+                return !contained
+              }
+            })
           }
         }
         observable.subscribe(update)
