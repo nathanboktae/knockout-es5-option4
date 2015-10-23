@@ -65,6 +65,9 @@
                   return result
                 }
               })
+            });
+            ['remove', 'replace', 'removeAll'].forEach(function(f) {
+              Object.defineProperty(arr, f, { value: ko.observableArray.fn[f].bind(observable) })
             })
           }
         }

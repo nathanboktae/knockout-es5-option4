@@ -64,7 +64,7 @@ describe('knockout-es5-option4', function() {
     it('should mixin ko.observableArray functions into any arrays, even through updates', function() {
       var foo = {},
           checkMixinKeys = function() {
-            ['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'].forEach(function(f) {
+            ['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'remove', 'replace', 'removeAll'].forEach(function(f) {
               Object.getOwnPropertyDescriptor(foo.friends, f).enumerable.should.be.false
             })
           }
@@ -80,6 +80,17 @@ describe('knockout-es5-option4', function() {
       foo.friends = [{ name: 'John' }]
       checkMixinKeys()
       foo.friends.should.deep.equal([{ name: 'John' }])
+    })
+
+    it('should be able to remove or replace an item, updating subscribers', function() {
+      var foo = ko.observe({ friends: ['Bob', 'Jill', 'Jane'] })
+      var friends = ko.computed(() => foo.friends.join())
+
+      friends().should.equal('Bob,Jill,Jane')
+      foo.friends.remove('Bob')
+      friends().should.equal('Jill,Jane')
+      foo.friends.replace('Jane', 'Anne')
+      friends().should.equal('Jill,Anne')
     })
 
     it('should deeply observify objects by default', function() {
