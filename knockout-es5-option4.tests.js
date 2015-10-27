@@ -263,19 +263,6 @@ describe('knockout-es5-option4', function() {
       obj.friends[0].should.equal('Jane')
     })
 
-    it('should not define properties for subscribables', function() {
-      var obj = ko.observableObject({
-        name: 'Bob',
-        friends: ko.observableArray()
-      })
-
-      var friendsDescriptor = Object.getOwnPropertyDescriptor(obj, 'friends')
-      should.not.exist(friendsDescriptor.get)
-      should.not.exist(friendsDescriptor.set)
-
-      obj.friends.should.be.an.observable
-    })
-
     it('should deeply create observableModels from arrays of objects', function() {
       var obj = ko.observableObject({
         name: 'Bob',
@@ -290,8 +277,9 @@ describe('knockout-es5-option4', function() {
       obj._friends.push.should.be.a('function')
       obj.friends[0].name.should.equal('Jill')
       obj.friends[0]._name.should.be.an.observable
-      should.not.exist(obj.friends[1]._name)
-      obj.friends[1].name().should.equal('Jane')
+      obj.friends[1]._name.should.be.an.observable
+      obj.friends[1].name.should.equal('Jane')
+      should.not.exist(Object.getOwnPropertyDescriptor(obj.friends[1], 'name').set)
     })
   })
 

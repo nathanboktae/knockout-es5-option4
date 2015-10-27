@@ -38,7 +38,7 @@
     if (!descriptor || (!descriptor.get && !descriptor.set)) {
       if (descriptor) delete obj[prop]
 
-      observable = ko[type](def)
+      observable = ko.isObservable(def) ? def : ko[type](def)
       Object.defineProperty(obj, prop, {
         set: ko.isWritableObservable(observable) ? observable : undefined,
         get: observable,
@@ -151,12 +151,7 @@
     } else {
       for (prop in defaults) {
         if (defaults.hasOwnProperty(prop)) {
-          def = defaults[prop]
-          if (!def || !ko.isSubscribable(def)) {
-            ko.defineObservableProperty(model, prop, def, options)
-          } else {
-            model[prop] = def
-          }
+          ko.defineObservableProperty(model, prop, defaults[prop], options)
         }
       }
     }
