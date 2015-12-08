@@ -164,7 +164,7 @@
   }
 
   ko.track = function(obj, props) {
-    (props || Object.getOwnPropertyNames(obj)).forEach(function(prop) {
+    (props || Object.keys(obj)).forEach(function(prop) {
       ko.defineObservableProperty(obj, prop, obj[prop], { deep: false })
     })
     return obj

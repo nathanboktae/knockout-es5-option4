@@ -433,6 +433,18 @@ describe('knockout-es5-option4', function() {
       }])
     })
 
+    it('should ignore non-enumerable properties', function() {
+      var model = { name: 'Bob' }
+      Object.defineProperty(model, 'age', { value: 30 })
+
+      ko.observe(model)
+      model._name.should.be.an.observable
+      model.name.should.equal('Bob')
+      should.not.exist(model._age)
+      model.age.should.equal(30)
+      Object.getOwnPropertyDescriptor(model, 'age').enumerable.should.be.false
+    })
+
     describe('arrayMapping', function() {
       it('for properties that are arrays, it should match items in the array by the property that is the value of the arrayMapping property', function() {
         var model = ko.observableObject({
